@@ -1,2 +1,2 @@
-# defeat-the-monster
-Fight a virtual monster in this Python CLI! 
+# Defeat The Monster
+This is my first Python application.
