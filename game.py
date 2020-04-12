@@ -4,8 +4,8 @@ game_running = True
 game_results = []
 
 
-def calc_monster_attack():
-    return randint(monster['attack_min'], monster['attack_max'])
+def calc_monster_attack(attack_min, attack_max):
+    return randint(attack_min, attack_max)
 
 
 def game_ends(winner_name, loser_name):
@@ -40,7 +40,7 @@ while game_running == True:
         print('1) Attack')
         print('2) Heal')
         print('3) Exit Game')
-        print('3) View High Scores')
+        print('4) View High Scores')
 
         action_choice = input()
 
@@ -54,7 +54,9 @@ while game_running == True:
             if monster['health'] <= 0:
                 player_won = True
             else:
-                player['health'] = player['health'] - calc_monster_attack()
+                player['health'] = player['health'] - \
+                    calc_monster_attack(
+                        monster['attack_min'], monster['attack_max'])
                 if player['health'] <= 0:
                     monster_won = True
 
@@ -66,7 +68,9 @@ while game_running == True:
 
             print('---' * 7)
             print('AHHH! Now ' + monster['name'] + 'is attacking!')
-            player['health'] = player['health'] - calc_monster_attack()
+            player['health'] = player['health'] - \
+                calc_monster_attack(
+                    monster['attack_min'], monster['attack_max'])
 
             if player['health'] <= 0:
                 monster_won = True
@@ -76,7 +80,8 @@ while game_running == True:
             game_running = False
 
         elif action_choice == '4':
-            print(game_results)
+            for result in game_results:
+                print(result)
 
         else:
             print('Invalid action.')
