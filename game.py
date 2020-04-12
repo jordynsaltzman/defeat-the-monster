@@ -1,13 +1,19 @@
 from random import randint
 
 game_running = True
+game_results = []
 
 
 def calc_monster_attack():
     return randint(monster['attack_min'], monster['attack_max'])
 
 
+def game_ends(winner_name, loser_name):
+    print(f'{winner_name} defeated {loser_name}!')
+
+
 while game_running == True:
+    counter = 0
     new_round = True
 
     player = {'name': 'Jordyn',
@@ -25,7 +31,7 @@ while game_running == True:
           str(monster['health']) + ' health points')
 
     while new_round == True:
-
+        counter = counter + 1
         player_won = False
         monster_won = False
 
@@ -34,6 +40,7 @@ while game_running == True:
         print('1) Attack')
         print('2) Heal')
         print('3) Exit Game')
+        print('3) View High Scores')
 
         action_choice = input()
 
@@ -56,8 +63,8 @@ while game_running == True:
             player['health'] = player['health'] + player['heal']
             print(player['name'] + ' now has ' +
                   str(player['health']) + ' health points left!')
-            print('---' * 7)
 
+            print('---' * 7)
             print('AHHH! Now ' + monster['name'] + 'is attacking!')
             player['health'] = player['health'] - calc_monster_attack()
 
@@ -67,6 +74,9 @@ while game_running == True:
         elif action_choice == '3':
             new_round = False
             game_running = False
+
+        elif action_choice == '4':
+            print(game_results)
 
         else:
             print('Invalid action.')
@@ -78,11 +88,19 @@ while game_running == True:
                   str(player['health']) + ' health points left...')
 
         elif player_won:
-            print(player['name'] + ' defeated the monster!')
+            game_ends(player['name'], monster['name'])
+            round_result = {
+                'name': player['name'], 'health': player['health'], 'moves': counter}
+            game_results.append(round_result)
+
             new_round = False
-            # so we go back to the first while loop
+            # makes us go back to the first while loop
 
         elif monster_won:
-            print(monster['name'] + ' the monster has defeated you!')
+            game_ends(monster['name'], player['name'])
+            round_result = {
+                'name': player['name'], 'health': player['health'], 'moves': counter}
+            game_results.append(round_result)
+
             new_round = False
-            # so we go back to the first while loop
+            # makes us go back to the first while loop
